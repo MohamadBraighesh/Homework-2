@@ -1,0 +1,80 @@
+Q1)
+
+1,2)
+
+DECLARE 
+v_TODAY DATE := SYSDATE;
+v_TOMORROW v_TODAY%TYPE;
+BEGIN 
+    v_TOMORROW := v_TODAY + 1 ;
+    DBMS_OUTPUT.PUT_LINE('Hello World'); 
+    DBMS_OUTPUT.PUT_LINE(v_TODAY);
+    DBMS_OUTPUT.PUT_LINE(v_TOMORROW);
+END;
+
+
+3)
+
+
+
+DECLARE 
+ v_my_date DATE := SYSDATE;
+ v_last_day DATE:=LAST_DAY(SYSDATE);
+BEGIN 
+    DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_my_date,'month dd,yyyy'));
+    DBMS_OUTPUT.PUT_LINE(v_last_day);
+END;
+
+
+
+4)
+
+DECLARE 
+ v_my_date DATE := SYSDATE;
+ v_last_day DATE:=LAST_DAY(SYSDATE);
+ v_no_months PLS_INTEGER :=0;
+BEGIN 
+    DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_my_date,'month dd,yyyy'));
+    DBMS_OUTPUT.PUT_LINE(v_last_day);
+    v_my_date := SYSDATE + 45;
+    v_no_months := MONTHS_BETWEEN(v_my_date,SYSDATE);
+    DBMS_OUTPUT.PUT_LINE(v_no_months);
+
+END;
+
+
+
+Q2)
+
+
+create table countries
+(
+	country_name varchar2(20),
+    	median_age integer
+)
+
+
+
+insert into countries (country_name,median_age) values ('amman',35);
+insert into countries (country_name,median_age) values ('zarqa',35);
+insert into countries (country_name,median_age) values ('irbed',35);
+insert into countries (country_name,median_age) values ('alsalt',35);
+insert into countries (country_name,median_age) values ('Jerash',35);
+
+
+
+DECLARE 
+v_country_name countries.country_name%TYPE; 
+v_median_age countries.median_age%TYPE; 
+cursor my_cursor is SELECT country_name, median_age INTO v_country_name, v_median_age 
+FROM countries 
+WHERE country_name = 'amman';  
+BEGIN 
+open my_cursor;
+    loop
+        fetch my_cursor into v_country_name ,v_median_age;
+		exit when my_cursor%notfound;
+    	DBMS_OUTPUT.PUT_LINE('The median age in '|| v_country_name || ' is ' || v_median_age || '.'); 
+    end loop;
+close my_cursor;
+END; 
